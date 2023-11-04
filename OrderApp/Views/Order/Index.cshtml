@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Order page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Order page</h1>
+
+    <button>Add order</button>
+
+    <label for="start">Start date:</label>
+    <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" />
+
+    <label for="end">End date:</label>
+    <input type="date" id="end" name="trip-end" value="2018-07-22" min="2018-01-01" max="2018-12-31" />
+
+    <label for="test">Choose a bear:</label>
+    <select data-placeholder="Begin typing a name to filter..." multiple class="chosen-select" name="test">
+        <option value=""></option>
+        <option>American Black Bear</option>
+        <option>Asiatic Black Bear</option>
+        <option>Brown Bear</option>
+        <option>Giant Panda</option>
+        <option>Sloth Bear</option>
+        <option>Sun Bear</option>
+        <option>Polar Bear</option>
+        <option>Spectacled Bear</option>
+    </select>
+
+    <button>Submit filter</button>
+
+    <table>
+
+    </table>
+
+</div>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/lib/chosen/dist/chosen.min.css" />
+}
+@section Scripts
+{
+    <script src="~/lib/chosen/dist/chosen.jquery.min.js"></script>
+    <script src="~/js/chosen-activate.js"></script>
+}
