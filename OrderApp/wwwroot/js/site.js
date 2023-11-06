@@ -1,11 +1,14 @@
 ﻿$("#add-order-button").click(function () {
+    openOrderModalCreateOrUpdate("");
+});
+function openOrderModalCreateOrUpdate(orderId) {
     $.ajax({
         type: "POST",
-        url: "/Order/Create",
-        data: { "orderId": 0 },
+        url: "/Form/GetDataToCreateOrUpdateOrder",
+        data: { "orderId": orderId },
         success: function (response) {
-            $("#partialModal").find(".modal-body").html(response);
-            $("#partialModal").modal('show');
+            $("#order-madal").find(".modal-content").html(response);
+            $("#order-madal").modal('show');
         },
         failure: function (response) {
             alert(response.responseText);
@@ -14,7 +17,7 @@
             alert(response.responseText);
         }
     });
-});
+}
 
 $("#submit-order-filter-button").click(function () {
 

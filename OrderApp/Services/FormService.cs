@@ -11,7 +11,6 @@ namespace OrderApp.Services
         private readonly IOrderService _orderService;
         private readonly IProviderService _providerService;
 
-
         public FormService(ApplicationContext db, IOrderService orderService, IProviderService providerService)
         {
             _db = db;
@@ -79,6 +78,20 @@ namespace OrderApp.Services
                 orderRows.Add(orderRow);
             }
             return orderRows;
+        }
+
+        public FormGetDataToCreateOrUpdateOrderResponseDTO GetDataToCreateOrUpdateOrder(string orderId)
+        {
+            var providersDTO = _providerService.GetAllProviders();
+
+            var createOrder = string.IsNullOrEmpty(orderId);
+            var orderForm = new FormGetDataToCreateOrUpdateOrderResponseDTO
+            {
+                FormTitle = createOrder ? "Create order form" : "Update order form",
+                ProviderNames = providersDTO.Select(p => p.Name)
+            };
+
+            return orderForm;
         }
     }
 }

@@ -7,5 +7,6 @@ namespace OrderApp.Services.Interfaces
     {
         FormGetMainPageDataResponseDTO GetDataToShowMainPage();
         IEnumerable<FormGetOrderRowResponseDTO> ConvertOrdersToOrderRows(IEnumerable<OrderGetResponseDTO> orders);
+        FormGetDataToCreateOrUpdateOrderResponseDTO GetDataToCreateOrUpdateOrder(string orderId);
     }
 }

@@ -26,13 +26,10 @@ namespace OrderApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetDataToCreateOrder(string orderId)
+        public IActionResult GetDataToCreateOrUpdateOrder(string orderId)
         {
-            /*
-            var createdOrderData = _formService.GetDataToCreateOrder(orderId);
+            var createdOrderData = _formService.GetDataToCreateOrUpdateOrder(orderId);
             return PartialView("_CreateOrUpdateOrderForm", createdOrderData);
-            */
-            return null;
         }
 
         [HttpPost]
