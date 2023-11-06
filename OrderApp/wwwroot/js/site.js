@@ -25,10 +25,7 @@ function openOrderModalCreateOrUpdate(orderId) {
 
 $("#submit-order-filter-button").click(function () {
 
-    var data = $("#order-number-filter").val();
-    var values = $("#order-number-filter").chosen().val();
-
-    let params = {
+    let filters = {
         OrderDateStart: $("#order-start-date-filter").datepicker().val(),
         OrderDateEnd: $("#order-end-date-filter").datepicker().val(),
         OrderNumbers: $("#order-number-filter").val(),
@@ -41,10 +38,9 @@ $("#submit-order-filter-button").click(function () {
     $.ajax({
         type: "POST",
         url: "/Form/GetFilteredOrders",
-        data: params,
+        data: filters,
         success: function (response) {
             $("#orders-table-container").html(response);
-            //$("#partialModal").modal('show');
         },
         failure: function (response) {
             alert(response.responseText);
