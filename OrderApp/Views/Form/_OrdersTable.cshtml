@@ -2,7 +2,7 @@
 @model IEnumerable<FormGetOrderRowResponseDTO>
 <p>orders table</p>
 
-<table>
+<table id="orders-table">
     <tr>
         <th>Number</th>
         <th>Date</th>
@@ -10,6 +10,7 @@
     @foreach (var orderRow in Model)
     {
         <tr>
+            <td class="column-id" style="display:none;">@orderRow.Id</td>
             <td>@orderRow.Number</td>
             <td>@orderRow.Date</td>
         </tr>

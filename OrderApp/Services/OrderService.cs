@@ -16,6 +16,9 @@ namespace OrderApp.Services
             _db = db;
         }
 
+        public OrderGetResponseDTO GetOrder(int orderId, bool includeItems)
+            => CreateOrdersDTO(new List<Order> { _db.Orders.Find(orderId) }, includeItems).First();
+
         public IEnumerable<OrderGetResponseDTO> GetAllOrders(bool includeItems) 
             => CreateOrdersDTO(_db.Orders.ToList(), includeItems);
 

@@ -82,15 +82,13 @@ namespace OrderApp.Services
 
         public FormGetDataToCreateOrUpdateOrderResponseDTO GetDataToCreateOrUpdateOrder(string orderId)
         {
-            var providersDTO = _providerService.GetAllProviders();
-
             var createOrder = string.IsNullOrEmpty(orderId);
             var orderForm = new FormGetDataToCreateOrUpdateOrderResponseDTO
             {
                 FormTitle = createOrder ? "Create order form" : "Update order form",
-                ProviderNames = providersDTO.Select(p => p.Name)
+                Providers = _providerService.GetAllProviders(),
+                OrderData = createOrder ? new OrderGetResponseDTO() : _orderService.GetOrder(Convert.ToInt32(orderId), true)
             };
-
             return orderForm;
         }
     }

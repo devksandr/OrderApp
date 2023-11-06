@@ -1,6 +1,10 @@
 ﻿$("#add-order-button").click(function () {
     openOrderModalCreateOrUpdate("");
 });
+$('#orders-table tr').click(function () {
+    let orderId = $(this).find(".column-id").text();
+    openOrderModalCreateOrUpdate(orderId);
+});
 function openOrderModalCreateOrUpdate(orderId) {
     $.ajax({
         type: "POST",

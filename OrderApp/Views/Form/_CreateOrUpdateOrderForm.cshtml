@@ -6,19 +6,14 @@
 </div>
 
 <div class="modal-body">
-    <label for="order-provider">Number</label>
-    <select data-placeholder="placeholder" name="order-provider">
-        @foreach (var providerName in Model.ProviderNames)
-        {
-            <option>@providerName</option>
-        }
-    </select>
+    <label asp-for="OrderData.ProviderId">Provider</label>
+    <select asp-for="OrderData.ProviderId" asp-items="@(new SelectList(Model.Providers, "Id", "Name"))"></select>
 
-    <label for="order-number">Number</label>
-    <input name="order-number" />
+    <label asp-for="OrderData.Number">Number</label>
+    <input asp-for="OrderData.Number" />
 
-    <label for="order-date">Date</label>
-    <input type="date" name="order-date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+    <label asp-for="OrderData.Date">Date</label>
+    <input type="date" asp-for="OrderData.Date" />
 
     <table cellpadding="0" cellspacing="0" class="grid" id="order-items-table">
         <tr>
