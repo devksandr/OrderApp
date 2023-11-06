@@ -1,0 +1,18 @@
+﻿@using OrderApp.Models.DTO.Form
+@model IEnumerable<FormGetOrderRowResponseDTO>
+<p>orders table</p>
+
+<table>
+    <tr>
+        <th>Number</th>
+        <th>Date</th>
+    </tr>
+    @foreach (var orderRow in Model)
+    {
+        <tr>
+            <td>@orderRow.Number</td>
+            <td>@orderRow.Date</td>
+        </tr>
+    }
+</table>
+<p>end</p>

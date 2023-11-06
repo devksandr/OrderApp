@@ -4,10 +4,10 @@
     ViewData["Title"] = "Main page";
 }
 @functions {
-    public async Task CreateOrderFilter<T>(string label, string nameTag, IEnumerable<T> options)
+    public async Task CreateOrderFilter<T>(string label, string tag, IEnumerable<T> options)
     {
-        <label for="@nameTag">@label:</label>
-        <select data-placeholder="@label" multiple class="chosen-select" name="@nameTag">
+        <label for="@tag">@label:</label>
+        <select id="@tag" data-placeholder="@label" multiple class="chosen-select" name="@tag">
             @foreach (var option in options)
             {
                 <option>@option</option>
@@ -15,17 +15,15 @@
         </select>
     }
 }
-@section Styles
-    {
+@section Styles {
     <link rel="stylesheet" href="~/lib/chosen/dist/chosen.min.css" />
 }
-@section Scripts
-    {
+@section Scripts {
     <script src="~/lib/chosen/dist/chosen.jquery.min.js"></script>
     <script src="~/js/chosen-activate.js"></script>
+    <script src="~/lib/jquery/dist/jquery-ui.min.js"></script>
 }
-@section PartialViews
-    {
+@section PartialViews {
     @await Html.PartialAsync("_CreateOrUpdateOrderModal")
 }
 
@@ -33,6 +31,7 @@
     <h1 class="display-4">Main page</h1>
 
     <button id="add-order-button">Add order</button>
+
 
     <label for="order-start-date-filter">Start date:</label>
     <input type="date" id="order-start-date-filter" name="order-start-date-filter" value="@DateTime.Today.AddMonths(-1).ToString("yyyy-MM-dd")" />
@@ -49,21 +48,13 @@
         await CreateOrderFilter<string>("Provider names", "provider-name-filter", Model.Filter.ProviderNames);
     }
 
-    <button>Submit filter</button>
+    <button id="submit-order-filter-button">Submit filter</button>
 
-    <table>
-        <tr>
-            <th>Number</th>
-            <th>Date</th>
-        </tr>
-        @foreach (var orderRow in Model.OrderRows)
-        {
-            <tr>
-                <td>@orderRow.Number</td>
-                <td>@orderRow.Date</td>
-            </tr>
-        }
-    </table>
+    <div id="orders-table-container">
+        @await Html.PartialAsync("_OrdersTable", Model.OrderRows)
+    </div>
+
+
 
 </div>
 

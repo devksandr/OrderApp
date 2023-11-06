@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OrderApp.Models.DTO.Order;
 using OrderApp.Services.Interfaces;
 
 namespace OrderApp.Controllers
@@ -17,15 +18,6 @@ namespace OrderApp.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult GetDataToCreate(string orderId)
-        {
-            /*
-            string dataToModal = "controller test data";
-            var createOrderData = _orderService.GetDataToCreate(orderId);
-            return PartialView("_CreateOrUpdateOrderForm", dataToModal);
-            */
-            return null;
-        }
+
     }
 }

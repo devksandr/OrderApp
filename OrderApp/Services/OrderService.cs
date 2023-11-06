@@ -1,7 +1,9 @@
 ﻿using OrderApp.Database;
 using OrderApp.Models.DTO.Form;
 using OrderApp.Models.DTO.Order;
+using OrderApp.Models.Entities;
 using OrderApp.Services.Interfaces;
+using System.Linq;
 
 namespace OrderApp.Services
 {
@@ -14,10 +16,48 @@ namespace OrderApp.Services
             _db = db;
         }
 
-        public IEnumerable<OrderGetResponseDTO> GetAllOrders(bool includeItems)
+        public IEnumerable<OrderGetResponseDTO> GetAllOrders(bool includeItems) 
+            => CreateOrdersDTO(_db.Orders.ToList(), includeItems);
+
+        public IEnumerable<OrderItemGetResponseDTO> GetAllOrderItems()
+        {
+            var orderItemsDTO = new List<OrderItemGetResponseDTO>();
+
+            foreach (var oi in _db.OrderItems)
+            {
+                var orderItemDTO = new OrderItemGetResponseDTO
+                {
+                    Id = oi.Id,
+                    Name = oi.Name,
+                    Quantity = oi.Quantity,
+                    Unit = oi.Unit
+                };
+                orderItemsDTO.Add(orderItemDTO);
+            }
+
+            return orderItemsDTO;
+        }
+
+        public IEnumerable<OrderGetResponseDTO> GetFilteredOrders(FormGetFilteredOrdersRequestDTO filters)
         {
             var ordersDTO = new List<OrderGetResponseDTO>();
-            foreach (var o in _db.Orders)
+            var filteredOrders = _db.Orders.ToList().Where(o => 
+                    o.Date >= filters.OrderDateStart && 
+                    o.Date <= filters.OrderDateEnd &&
+                    (filters.OrderNumbers == null || filters.OrderNumbers.Contains(o.Number)) &&
+                    (filters.OrderProviderIds == null || filters.OrderProviderIds.Contains(o.ProviderId)) &&
+                    (filters.OrderItemNames == null || !filters.OrderItemNames.Except(_db.OrderItems.Where(oi => oi.OrderId == o.Id).Select(oi => oi.Name)).Any()) &&
+                    (filters.OrderItemUnits == null || !filters.OrderItemUnits.Except(_db.OrderItems.Where(oi => oi.OrderId == o.Id).Select(oi => oi.Unit)).Any()) &&
+                    (filters.ProviderNames == null || filters.ProviderNames.Contains(_db.Providers.Find(o.ProviderId).Name)))
+                .ToList();
+
+            return CreateOrdersDTO(filteredOrders, false);
+        }
+
+        private IEnumerable<OrderGetResponseDTO> CreateOrdersDTO(List<Order> orders, bool includeItems)
+        {
+            var ordersDTO = new List<OrderGetResponseDTO>();
+            foreach (var o in orders)
             {
                 var orderItemsDTO = new List<OrderItemGetResponseDTO>();
                 if (includeItems)
@@ -46,25 +86,6 @@ namespace OrderApp.Services
                 ordersDTO.Add(orderDTO);
             }
             return ordersDTO;
-        }
-
-        public IEnumerable<OrderItemGetResponseDTO> GetAllOrderItems()
-        {
-            var orderItemsDTO = new List<OrderItemGetResponseDTO>();
-
-            foreach (var oi in _db.OrderItems)
-            {
-                var orderItemDTO = new OrderItemGetResponseDTO
-                {
-                    Id = oi.Id,
-                    Name = oi.Name,
-                    Quantity = oi.Quantity,
-                    Unit = oi.Unit
-                };
-                orderItemsDTO.Add(orderItemDTO);
-            }
-
-            return orderItemsDTO;
         }
     }
 }

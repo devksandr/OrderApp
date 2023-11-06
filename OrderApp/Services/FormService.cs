@@ -1,5 +1,6 @@
 ﻿using OrderApp.Database;
 using OrderApp.Models.DTO.Form;
+using OrderApp.Models.DTO.Order;
 using OrderApp.Services.Interfaces;
 
 namespace OrderApp.Services
@@ -37,7 +38,7 @@ namespace OrderApp.Services
                 return orderRows;
             }
 
-            FormGetFilterResponseDTO GetFilters()
+            FormGetFilterResponseDTO GetOrderFiltersData()
             {
                 var ordersDTO = _orderService.GetAllOrders(false);
                 var orderItemsDTO = _orderService.GetAllOrderItems();
@@ -58,10 +59,26 @@ namespace OrderApp.Services
             var mainPageData = new FormGetMainPageDataResponseDTO
             {
                 OrderRows = GetOrderRows(),
-                Filter = GetFilters()
+                Filter = GetOrderFiltersData()
             };
 
             return mainPageData;
+        }
+
+        public IEnumerable<FormGetOrderRowResponseDTO> ConvertOrdersToOrderRows(IEnumerable<OrderGetResponseDTO> orders)
+        {
+            var orderRows = new List<FormGetOrderRowResponseDTO>();
+            foreach (var o in orders)
+            {
+                var orderRow = new FormGetOrderRowResponseDTO
+                {
+                    Id = o.Id,
+                    Number = o.Number,
+                    Date = o.Date,
+                };
+                orderRows.Add(orderRow);
+            }
+            return orderRows;
         }
     }
 }
