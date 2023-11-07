@@ -69,7 +69,7 @@ namespace OrderApp.Services
                     {
                         var orderItemDTO = new OrderItemGetResponseDTO
                         {
-                            Id = oi.OrderId,
+                            Id = oi.Id,
                             Name = oi.Name,
                             Quantity = oi.Quantity,
                             Unit = oi.Unit

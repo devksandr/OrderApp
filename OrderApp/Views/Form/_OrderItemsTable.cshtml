@@ -7,15 +7,18 @@
             <th>Name</th>
             <th>Quantity</th>
             <th>Unit</th>
+            <th>Remove item</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var orderItem in Model)
         {
             <tr>
+                <td class="column-id d-none">@orderItem.Id</td>
                 <td>@Html.TextBoxFor(modelItem => orderItem.Name)</td>
                 <td>@Html.TextBoxFor(modelItem => orderItem.Quantity)</td>
                 <td>@Html.TextBoxFor(modelItem => orderItem.Unit)</td>
+                <td class="column-remove">remove</td>
             </tr>
         }
     </tbody>

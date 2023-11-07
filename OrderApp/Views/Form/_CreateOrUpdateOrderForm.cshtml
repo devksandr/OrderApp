@@ -17,12 +17,13 @@
 
     @await Html.PartialAsync("_OrderItemsTable", Model.OrderData.Items)
 
-    <button>Add item</button>
+    <button id="add-order-item-button">Add item</button>
 
-    <button>Save order</button>
 </div>
 
-
+<div class="modal-footer">
+    <button>Save order</button>
+</div>
 
 
 
