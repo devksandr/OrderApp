@@ -1,0 +1,22 @@
+﻿@using OrderApp.Models.DTO.Order
+@model IEnumerable<OrderItemGetResponseDTO>
+
+<table cellpadding="0" cellspacing="0" class="grid" id="order-items-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderItem in Model)
+        {
+            <tr>
+                <td>@Html.TextBoxFor(modelItem => orderItem.Name)</td>
+                <td>@Html.TextBoxFor(modelItem => orderItem.Quantity)</td>
+                <td>@Html.TextBoxFor(modelItem => orderItem.Unit)</td>
+            </tr>
+        }
+    </tbody>
+</table>

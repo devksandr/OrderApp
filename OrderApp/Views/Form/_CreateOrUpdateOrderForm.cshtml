@@ -15,13 +15,7 @@
     <label asp-for="OrderData.Date">Date</label>
     <input type="date" asp-for="OrderData.Date" />
 
-    <table cellpadding="0" cellspacing="0" class="grid" id="order-items-table">
-        <tr>
-            <th>Name</th>
-            <th>Quantity </th>
-            <th>Unit</th>
-        </tr>
-    </table>
+    @await Html.PartialAsync("_OrderItemsTable", Model.OrderData.Items)
 
     <button>Add item</button>
 
