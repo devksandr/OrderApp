@@ -6,23 +6,26 @@
 </div>
 
 <div class="modal-body">
-    <label asp-for="OrderData.ProviderId">Provider</label>
-    <select asp-for="OrderData.ProviderId" asp-items="@(new SelectList(Model.Providers, "Id", "Name"))"></select>
+    <form id="save-order-form">
+        <input asp-for="OrderData.Id" type="hidden" id="order-id-input" />
 
-    <label asp-for="OrderData.Number">Number</label>
-    <input asp-for="OrderData.Number" />
+        <label asp-for="OrderData.ProviderId">Provider</label>
+        <select asp-for="OrderData.ProviderId" asp-items="@(new SelectList(Model.Providers, "Id", "Name"))"></select>
 
-    <label asp-for="OrderData.Date">Date</label>
-    <input type="date" asp-for="OrderData.Date" />
+        <label asp-for="OrderData.Number">Number</label>
+        <input asp-for="OrderData.Number" />
 
-    @await Html.PartialAsync("_OrderItemsTable", Model.OrderData.Items)
+        <label asp-for="OrderData.Date">Date</label>
+        <input type="date" asp-for="OrderData.Date" />
+
+        @await Html.PartialAsync("_OrderItemsTable", Model.OrderData.Items)
+    </form>
 
     <button id="add-order-item-button">Add item</button>
-
 </div>
 
 <div class="modal-footer">
-    <button>Save order</button>
+    <input id="save-order-button" type="submit" form="save-order-form" value="Save order" />
 </div>
 
 

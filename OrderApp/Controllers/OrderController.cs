@@ -18,6 +18,19 @@ namespace OrderApp.Controllers
             return View();
         }
 
-
+        [HttpPost]
+        public void Create(OrderGetResponseDTO orderData)
+        {
+            //var filteredOrders = _orderService.GetFilteredOrders(filters);
+            //var orderRows = _formService.ConvertOrdersToOrderRows(filteredOrders);
+            //return PartialView("_OrdersTable", orderRows);
+        }
+        [HttpPut]
+        public void Update(OrderGetResponseDTO orderData)
+        {
+            //var filteredOrders = _orderService.GetFilteredOrders(filters);
+            //var orderRows = _formService.ConvertOrdersToOrderRows(filteredOrders);
+            //return PartialView("_OrdersTable", orderRows);
+        }
     }
 }

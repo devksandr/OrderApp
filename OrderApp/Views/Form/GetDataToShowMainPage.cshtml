@@ -34,7 +34,6 @@
 
     <button id="add-order-button">Add order</button>
 
-
     <label for="order-start-date-filter">Start date:</label>
     <input type="date" id="order-start-date-filter" name="order-start-date-filter" value="@DateTime.Today.AddMonths(-1).ToString("yyyy-MM-dd")" />
 
@@ -55,8 +54,5 @@
     <div id="orders-table-container">
         @await Html.PartialAsync("_OrdersTable", Model.OrderRows)
     </div>
-
-
-
 </div>
 

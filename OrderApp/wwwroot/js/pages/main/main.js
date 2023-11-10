@@ -24,7 +24,6 @@ function openOrderModalCreateOrUpdate(orderId) {
 }
 
 $("#submit-order-filter-button").click(function () {
-
     let filters = {
         OrderDateStart: $("#order-start-date-filter").datepicker().val(),
         OrderDateEnd: $("#order-end-date-filter").datepicker().val(),
