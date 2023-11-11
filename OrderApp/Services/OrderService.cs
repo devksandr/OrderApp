@@ -1,4 +1,6 @@
-﻿using OrderApp.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using OrderApp.Database;
 using OrderApp.Models.DTO.Form;
 using OrderApp.Models.DTO.Order;
 using OrderApp.Models.Entities;
@@ -100,6 +102,33 @@ namespace OrderApp.Services
             }
         }
 
+        public bool DeleteOrder(int orderId)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var orderItems = _db.OrderItems.Where(oi => oi.OrderId == orderId).ToList();
+                    foreach (var orderItem in orderItems)
+                    {
+                        _db.OrderItems.Remove(orderItem);
+                    }
+
+                    var order = new Order { Id = orderId };
+                    _db.Orders.Remove(order);   
+                    _db.SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         private IEnumerable<OrderGetResponseDTO> CreateOrdersDTO(List<Order> orders, bool includeItems)
         {

@@ -103,13 +103,9 @@ $('body').on('click', '#remove-order-button', function (e) {
     var orderId = $('#order-id-input').val();
     $.ajax({
         type: 'DELETE',
-        url: "/Order/Delete",
-        data: orderId,
+        url: `/Order/Delete/${orderId}`,
         success: function (response) {
-            // data: { "orderId": orderId },
-            //$("#order-madal").find(".modal-content").html(response);
-            //$("#order-madal").modal('show');
-
+            location.reload();
         },
         failure: function (response) {
             alert(response.responseText);

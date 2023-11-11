@@ -21,7 +21,7 @@ namespace OrderApp.Controllers
         [HttpPost]
         public void Create(OrderGetResponseDTO orderData)
         {
-            //var result = _orderService.CreateOrder(orderData);
+            var result = _orderService.CreateOrder(orderData);
         }
         [HttpPut]
         public void Update(OrderGetResponseDTO orderData)
@@ -29,6 +29,12 @@ namespace OrderApp.Controllers
             //var filteredOrders = _orderService.GetFilteredOrders(filters);
             //var orderRows = _formService.ConvertOrdersToOrderRows(filteredOrders);
             //return PartialView("_OrdersTable", orderRows);
+        }
+
+        [HttpDelete("/Order/Delete/{orderId}")]
+        public void Delete(int orderId)
+        {
+            var result = _orderService.DeleteOrder(orderId);
         }
     }
 }

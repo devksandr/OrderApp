@@ -10,5 +10,6 @@ namespace OrderApp.Services.Interfaces
         public IEnumerable<OrderItemGetResponseDTO> GetAllOrderItems();
         public IEnumerable<OrderGetResponseDTO> GetFilteredOrders(FormGetFilteredOrdersRequestDTO filters);
         public bool CreateOrder(OrderGetResponseDTO orderData);
+        public bool DeleteOrder(int orderId);
     }
 }
