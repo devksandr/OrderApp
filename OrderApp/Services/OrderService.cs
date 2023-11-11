@@ -78,13 +78,7 @@ namespace OrderApp.Services
                     var orderItems = new List<OrderItem>();
                     foreach (var orderItemData in orderData.Items)
                     {
-                        var orderItem = new OrderItem
-                        {
-                            OrderId = order.Id,
-                            Name = orderItemData.Name,
-                            Quantity = orderItemData.Quantity,
-                            Unit = orderItemData.Unit
-                        };
+                        var orderItem = MakeOrderItemByDTO(orderItemData, order.Id);
                         orderItems.Add(orderItem);
                     }
 
@@ -116,6 +110,53 @@ namespace OrderApp.Services
 
                     var order = new Order { Id = orderId };
                     _db.Orders.Remove(order);   
+                    _db.SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool UpdateOrder(OrderGetResponseDTO orderData)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var order = _db.Orders.Find(orderData.Id);
+                    order.Number = orderData.Number;
+                    order.Date = orderData.Date;
+                    order.ProviderId = orderData.ProviderId;
+                    _db.SaveChanges();
+
+                    var deletedOrderItemsId = _db.OrderItems.Where(oi => oi.OrderId == orderData.Id).Select(oi => oi.Id).ToList();
+                    foreach (var orderItemData in orderData.Items)
+                    {
+                        deletedOrderItemsId.RemoveAll(oiId => oiId == orderItemData.Id);
+                        var orderItem = orderItemData.Id > 0 ? _db.OrderItems.Find(orderItemData.Id) : MakeOrderItemByDTO(orderItemData, orderData.Id);
+                        orderItem.Name = orderItemData.Name;
+                        orderItem.Quantity = orderItemData.Quantity;
+                        orderItem.Unit = orderItemData.Unit;
+
+                        if (orderItemData.Id <= 0)
+                        {
+                            _db.OrderItems.Add(orderItem);
+                        }
+                    }
+                    _db.SaveChanges();
+
+                    foreach (var orderItemIdToDelete in deletedOrderItemsId)
+                    {
+                        var orderItem = new OrderItem { Id = orderItemIdToDelete };
+                        _db.OrderItems.Remove(orderItem);
+                    }
                     _db.SaveChanges();
 
                     transaction.Commit();
@@ -164,5 +205,15 @@ namespace OrderApp.Services
             return ordersDTO;
         }
 
+        private OrderItem MakeOrderItemByDTO(OrderItemGetResponseDTO orderItemDTO, int orderId)
+        {
+            return new OrderItem
+            {
+                OrderId = orderId,
+                Name = orderItemDTO.Name,
+                Quantity = orderItemDTO.Quantity,
+                Unit = orderItemDTO.Unit
+            };
+        }
     }
 }
