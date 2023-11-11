@@ -57,6 +57,50 @@ namespace OrderApp.Services
             return CreateOrdersDTO(filteredOrders, false);
         }
 
+        public bool CreateOrder(OrderGetResponseDTO orderData)
+        {
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var order = new Order 
+                    { 
+                        Number = orderData.Number, 
+                        Date = orderData.Date, 
+                        ProviderId = orderData.ProviderId 
+                    };
+
+                    _db.Orders.Add(order);
+                    _db.SaveChanges();
+
+                    var orderItems = new List<OrderItem>();
+                    foreach (var orderItemData in orderData.Items)
+                    {
+                        var orderItem = new OrderItem
+                        {
+                            OrderId = order.Id,
+                            Name = orderItemData.Name,
+                            Quantity = orderItemData.Quantity,
+                            Unit = orderItemData.Unit
+                        };
+                        orderItems.Add(orderItem);
+                    }
+
+                    _db.OrderItems.AddRange(orderItems);
+                    _db.SaveChanges();
+
+                    transaction.Commit();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+        }
+
+
         private IEnumerable<OrderGetResponseDTO> CreateOrdersDTO(List<Order> orders, bool includeItems)
         {
             var ordersDTO = new List<OrderGetResponseDTO>();
@@ -90,5 +134,6 @@ namespace OrderApp.Services
             }
             return ordersDTO;
         }
+
     }
 }

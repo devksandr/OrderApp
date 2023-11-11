@@ -1,31 +1,37 @@
 ﻿@using OrderApp.Models.DTO.Form
 @model FormGetDataToCreateOrUpdateOrderResponseDTO
 
+@{
+    bool isEdit = Model.OrderData.Id > 0;
+}
+
 <div class="modal-header">
     <h5 class="modal-title">@Model.FormTitle</h5>
 </div>
 
 <div class="modal-body">
-    <form id="save-order-form">
+    <form id="save-order-form" disabled>
         <input asp-for="OrderData.Id" type="hidden" id="order-id-input" />
 
         <label asp-for="OrderData.ProviderId">Provider</label>
-        <select asp-for="OrderData.ProviderId" asp-items="@(new SelectList(Model.Providers, "Id", "Name"))"></select>
+        <select asp-for="OrderData.ProviderId" asp-items="@(new SelectList(Model.Providers, "Id", "Name"))" asp-is-disabled="@isEdit"></select>
 
         <label asp-for="OrderData.Number">Number</label>
-        <input asp-for="OrderData.Number" />
+        <input asp-for="OrderData.Number" asp-is-disabled="@isEdit" />
 
         <label asp-for="OrderData.Date">Date</label>
-        <input type="date" asp-for="OrderData.Date" />
+        <input type="date" asp-for="OrderData.Date" asp-is-disabled="@isEdit" />
 
-        @await Html.PartialAsync("_OrderItemsTable", Model.OrderData.Items)
+        @await Html.PartialAsync("_OrderItemsTable", Model.OrderData)
     </form>
 
-    <button id="add-order-item-button">Add item</button>
+    <button id="add-order-item-button" class="@(isEdit ? "d-none" : "")">Add item</button>
+    <button id="edit-order-button" class="@(!isEdit ? "d-none" : "")">Edit</button>
+    <button id="remove-order-button" class="@(!isEdit ? "d-none" : "")">Remove</button>
 </div>
 
 <div class="modal-footer">
-    <input id="save-order-button" type="submit" form="save-order-form" value="Save order" />
+    <input id="save-order-button" type="submit" form="save-order-form" value="Save order" class="@(isEdit ? "d-none" : "")" />
 </div>
 
 

@@ -31,7 +31,8 @@ function addEmptyRowToOrderItemsTable() {
 
             .append($('<td>')
                 .attr('class', 'column-remove')
-                .text('remove'))
+                .append($('<button>')
+                    .text('Remove')))
         );
 }
 
@@ -54,6 +55,8 @@ $('body').on('click', '#save-order-button', function (e) {
             // data: { "orderId": orderId },
             //$("#order-madal").find(".modal-content").html(response);
             //$("#order-madal").modal('show');
+            location.reload();  
+
         },
         failure: function (response) {
             alert(response.responseText);
@@ -63,7 +66,7 @@ $('body').on('click', '#save-order-button', function (e) {
         }
     });
 
-    return false;
+    //return false;
 })
 
 function setOrderItemsArrayIndexes(dataArray) {
@@ -86,3 +89,34 @@ function setOrderItemsArrayIndexes(dataArray) {
 function div(a, b) {
     return Math.floor(a / b);
 }
+
+$('body').on('click', '#edit-order-button', function () {
+    $("#save-order-form :input").removeAttr("disabled");
+    $("#edit-order-button").addClass("d-none");
+    $("#remove-order-button").addClass("d-none");
+    $("#add-order-item-button").removeClass("d-none");
+    $("#order-items-table tbody td:last-child").removeClass("d-none");
+    $("#save-order-button").removeClass("d-none");
+})
+
+$('body').on('click', '#remove-order-button', function (e) {
+    var orderId = $('#order-id-input').val();
+    $.ajax({
+        type: 'DELETE',
+        url: "/Order/Delete",
+        data: orderId,
+        success: function (response) {
+            // data: { "orderId": orderId },
+            //$("#order-madal").find(".modal-content").html(response);
+            //$("#order-madal").modal('show');
+
+        },
+        failure: function (response) {
+            alert(response.responseText);
+        },
+        error: function (response) {
+            alert(response.responseText);
+        }
+    });
+})
+

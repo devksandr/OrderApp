@@ -1,7 +1,9 @@
 ﻿@using OrderApp.Models.DTO.Order
-@model List<OrderItemGetResponseDTO>
+@model OrderGetResponseDTO
 @{
     string inputName = "OrderData.Items[0]";
+    bool isEdit = Model.Id > 0;
+    string shouldSetHideClass = isEdit ? "d-none" : "";
 }
 <table cellpadding="0" cellspacing="0" class="grid" id="order-items-table">
     <thead>
@@ -9,18 +11,18 @@
             <th>Name</th>
             <th>Quantity</th>
             <th>Unit</th>
-            <th>Remove item</th>
+            <th class="@shouldSetHideClass">Remove item</th>
         </tr>
     </thead>
     <tbody>
-        @for (int i = 0; i < Model.Count; i++)
+        @for (int i = 0; i < Model.Items.Count; i++)
         {
             <tr>
-                <td class="column-id d-none"><input type="text" name="@(inputName).id" value="@Model[i].Id" /></td>
-                <td><input type="text" name="@(inputName).name" value="@Model[i].Name" /></td>
-                <td><input type="text" name="@(inputName).quantity" value="@Model[i].Quantity" /></td>
-                <td><input type="text" name="@(inputName).unit" value="@Model[i].Unit" /></td>
-                <td class="column-remove">remove</td>
+                <td class="column-id d-none"><input type="text" name="@(inputName).id" value="@Model.Items[i].Id" /></td>
+                <td><input type="text" name="@(inputName).name" value="@Model.Items[i].Name" asp-is-disabled="@isEdit" /></td>
+                <td><input type="text" name="@(inputName).quantity" value="@Model.Items[i].Quantity" asp-is-disabled="@isEdit" /></td>
+                <td><input type="text" name="@(inputName).unit" value="@Model.Items[i].Unit" asp-is-disabled="@isEdit" /></td>
+                <td class="column-remove @shouldSetHideClass"><button>Remove</button></td>
             </tr>
         }
     </tbody>

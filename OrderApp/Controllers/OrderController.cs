@@ -21,9 +21,7 @@ namespace OrderApp.Controllers
         [HttpPost]
         public void Create(OrderGetResponseDTO orderData)
         {
-            //var filteredOrders = _orderService.GetFilteredOrders(filters);
-            //var orderRows = _formService.ConvertOrdersToOrderRows(filteredOrders);
-            //return PartialView("_OrdersTable", orderRows);
+            //var result = _orderService.CreateOrder(orderData);
         }
         [HttpPut]
         public void Update(OrderGetResponseDTO orderData)
