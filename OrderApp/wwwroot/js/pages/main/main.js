@@ -1,7 +1,7 @@
 ﻿$("#add-order-button").click(function () {
     openOrderModalCreateOrUpdate("");
 });
-$('#orders-table tr').click(function () {
+$('#orders-table tbody tr').click(function () {
     let orderId = $(this).find(".column-id").text();
     openOrderModalCreateOrUpdate(orderId);
 });

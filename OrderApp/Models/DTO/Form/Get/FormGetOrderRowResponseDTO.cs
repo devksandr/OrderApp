@@ -5,5 +5,6 @@
         public int Id { get; set; }
         public required string Number { get; set; }
         public DateTime Date { get; set; }
+        public required string ProviderName { get; set; }
     }
 }

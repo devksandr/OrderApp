@@ -31,5 +31,18 @@ namespace OrderApp.Services
 
             return providersDTO;
         }
+
+        public ProviderGetResponseDTO GetProvider(int providerId)
+        {
+            var provider = _db.Providers.Find(providerId);
+
+            var providerDTO = new ProviderGetResponseDTO
+            {
+                Id = provider.Id,
+                Name = provider.Name
+            };
+
+            return providerDTO;
+        }
     }
 }

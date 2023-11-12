@@ -1,6 +1,7 @@
 ﻿using OrderApp.Database;
 using OrderApp.Models.DTO.Form;
 using OrderApp.Models.DTO.Order;
+using OrderApp.Models.Entities;
 using OrderApp.Services.Interfaces;
 
 namespace OrderApp.Services
@@ -20,20 +21,10 @@ namespace OrderApp.Services
 
         public FormGetMainPageDataResponseDTO GetDataToShowMainPage()
         {
-            List<FormGetOrderRowResponseDTO> GetOrderRows()
+            IEnumerable<FormGetOrderRowResponseDTO> GetOrderRows()
             {
                 var ordersDTO = _orderService.GetAllOrders(false);
-                var orderRows = new List<FormGetOrderRowResponseDTO>();
-                foreach (var o in ordersDTO)
-                {
-                    var orderRow = new FormGetOrderRowResponseDTO
-                    {
-                        Id = o.Id,
-                        Number = o.Number,
-                        Date = o.Date,
-                    };
-                    orderRows.Add(orderRow);
-                }
+                var orderRows = MakeOrderRowsByOrders(ordersDTO);
                 return orderRows;
             }
 
@@ -64,21 +55,8 @@ namespace OrderApp.Services
             return mainPageData;
         }
 
-        public IEnumerable<FormGetOrderRowResponseDTO> ConvertOrdersToOrderRows(IEnumerable<OrderGetResponseDTO> orders)
-        {
-            var orderRows = new List<FormGetOrderRowResponseDTO>();
-            foreach (var o in orders)
-            {
-                var orderRow = new FormGetOrderRowResponseDTO
-                {
-                    Id = o.Id,
-                    Number = o.Number,
-                    Date = o.Date,
-                };
-                orderRows.Add(orderRow);
-            }
-            return orderRows;
-        }
+        public IEnumerable<FormGetOrderRowResponseDTO> ConvertOrdersToOrderRows(IEnumerable<OrderGetResponseDTO> orders) 
+            => MakeOrderRowsByOrders(orders);
 
         public FormGetDataToCreateOrUpdateOrderResponseDTO GetDataToCreateOrUpdateOrder(string orderId)
         {
@@ -90,6 +68,30 @@ namespace OrderApp.Services
                 OrderData = createOrder ? new OrderGetResponseDTO() : _orderService.GetOrder(Convert.ToInt32(orderId), true)
             };
             return orderForm;
+        }
+
+
+        private IEnumerable<FormGetOrderRowResponseDTO> MakeOrderRowsByOrders(IEnumerable<OrderGetResponseDTO> orders)
+        {
+            var orderRows = new List<FormGetOrderRowResponseDTO>();
+            foreach (var o in orders)
+            {
+                var orderRow = MakeFormOrderRowDTO(o);
+                orderRows.Add(orderRow);
+            }
+            return orderRows;
+        }
+
+        private FormGetOrderRowResponseDTO MakeFormOrderRowDTO(OrderGetResponseDTO orderDTO)
+        {
+            var providerName = _providerService.GetProvider(orderDTO.ProviderId).Name;
+            return new FormGetOrderRowResponseDTO
+            {
+                Id = orderDTO.Id,
+                Number = orderDTO.Number,
+                Date = orderDTO.Date,
+                ProviderName = providerName
+            };
         }
     }
 }

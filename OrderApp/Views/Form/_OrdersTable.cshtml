@@ -2,16 +2,22 @@
 @model IEnumerable<FormGetOrderRowResponseDTO>
 
 <table id="orders-table">
-    <tr>
-        <th>Number</th>
-        <th>Date</th>
-    </tr>
-    @foreach (var orderRow in Model)
-    {
+    <thead>
         <tr>
-            <td class="column-id d-none">@orderRow.Id</td>
-            <td>@orderRow.Number</td>
-            <td>@orderRow.Date</td>
+            <th>Provider Name</th>
+            <th>Order Number</th>
+            <th>Order Date</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var orderRow in Model)
+        {
+            <tr>
+                <td class="column-id d-none">@orderRow.Id</td>
+                <td>@orderRow.ProviderName</td>
+                <td>@orderRow.Number</td>
+                <td>@orderRow.Date</td>
+            </tr>
+        }
+    </tbody>
 </table>
