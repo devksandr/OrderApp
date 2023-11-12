@@ -4,7 +4,6 @@
     {
         public required IEnumerable<string> OrderNumbers;
         public required IEnumerable<DateTime> OrderDates;
-        public required IEnumerable<int> OrderProviderIds;
 
         public required IEnumerable<string> OrderItemNames;
         public required IEnumerable<string> OrderItemUnits;

@@ -34,14 +34,15 @@ namespace OrderApp.Services
                 var orderItemsDTO = _orderService.GetAllOrderItems();
                 var providersDTO = _providerService.GetAllProviders();
 
+                var currentProvidersDTO = ordersDTO.Select(o => o.ProviderId).Distinct();
+
                 var filters = new FormGetFilterResponseDTO
                 {
                     OrderNumbers = ordersDTO.Select(o => o.Number).Distinct(),
                     OrderDates = ordersDTO.Select(o => o.Date).Distinct(),
-                    OrderProviderIds = ordersDTO.Select(o => o.ProviderId).Distinct(),
                     OrderItemNames = orderItemsDTO.Select(oi  => oi.Name).Distinct(),
                     OrderItemUnits = orderItemsDTO.Select(oi => oi.Unit).Distinct(),
-                    ProviderNames = providersDTO.Select(p => p.Name).Distinct()
+                    ProviderNames = providersDTO.Where(p => currentProvidersDTO.Contains(p.Id)).Select(p => p.Name).Distinct()
                 };
                 return filters;
             }

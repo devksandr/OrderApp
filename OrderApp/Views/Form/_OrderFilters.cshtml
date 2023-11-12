@@ -26,7 +26,6 @@
 @{
     await CreateOrderFilter<string>("Order numbers", "order-number-filter", Model.OrderNumbers);
     await CreateOrderFilter<DateTime>("Order dates", "order-date-filter", Model.OrderDates);
-    await CreateOrderFilter<int>("Order provider ids", "order-provider-id-filter", Model.OrderProviderIds);
     await CreateOrderFilter<string>("Order item names", "order-item-name-filter", Model.OrderItemNames);
     await CreateOrderFilter<string>("Order item units", "order-item-unit-filter", Model.OrderItemUnits);
     await CreateOrderFilter<string>("Provider names", "provider-name-filter", Model.ProviderNames);

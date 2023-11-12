@@ -29,7 +29,6 @@ $("#submit-order-filter-button").click(function () {
         OrderDateStart: $("#order-start-date-filter").datepicker().val(),
         OrderDateEnd: $("#order-end-date-filter").datepicker().val(),
         OrderNumbers: $("#order-number-filter").val(),
-        OrderProviderIds: $("#order-provider-id-filter").val(),
         OrderItemNames: $("#order-item-name-filter").val(),
         OrderItemUnits: $("#order-item-unit-filter").val(),
         ProviderNames: $("#provider-name-filter").val()
