@@ -2,19 +2,6 @@
 @model FormGetMainPageDataResponseDTO
 @{
     ViewData["Title"] = "Main page";
-    string dateTimeFormat = "yyyy-MM-dd HH:mm";
-}
-@functions {
-    public async Task CreateOrderFilter<T>(string label, string tag, IEnumerable<T> options)
-    {
-        <label for="@tag">@label:</label>
-        <select id="@tag" data-placeholder="@label" multiple class="chosen-select" name="@tag">
-            @foreach (var option in options)
-            {
-                <option>@option</option>
-            }
-        </select>
-    }
 }
 @section Styles {
     <link rel="stylesheet" href="~/lib/chosen/dist/chosen.min.css" />
@@ -36,25 +23,11 @@
 
     <button id="add-order-button">Add order</button>
 
-    <label for="order-start-date-filter">Start date:</label>
-    <input type="datetime-local" id="order-start-date-filter" name="order-start-date-filter" value="@DateTime.UtcNow.AddMonths(-1).ToString(dateTimeFormat)" />
-
-    <label for="order-end-date-filter">End date:</label>
-    <input type="datetime-local" id="order-end-date-filter" name="order-end-date-filter" value="@DateTime.UtcNow.ToString(dateTimeFormat)" />
-
-    @{
-        await CreateOrderFilter<string>("Order numbers", "order-number-filter", Model.Filter.OrderNumbers);
-        await CreateOrderFilter<DateTime>("Order dates", "order-date-filter", Model.Filter.OrderDates);
-        await CreateOrderFilter<int>("Order provider ids", "order-provider-id-filter", Model.Filter.OrderProviderIds);
-        await CreateOrderFilter<string>("Order item names", "order-item-name-filter", Model.Filter.OrderItemNames);
-        await CreateOrderFilter<string>("Order item units", "order-item-unit-filter", Model.Filter.OrderItemUnits);
-        await CreateOrderFilter<string>("Provider names", "provider-name-filter", Model.Filter.ProviderNames);
-    }
-
-    <button id="submit-order-filter-button">Submit filter</button>
+    <div id="orders-filters-container">
+        @await Html.PartialAsync("_OrderFilters", Model.Filter)
+    </div>
 
     <div id="orders-table-container">
         @await Html.PartialAsync("_OrdersTable", Model.OrderRows)
     </div>
 </div>
-

@@ -1,0 +1,35 @@
+﻿@using OrderApp.Models.DTO.Form
+@model FormGetFilterResponseDTO
+
+@{
+    string dateTimeFormat = "yyyy-MM-dd HH:mm";
+}
+@functions {
+    public async Task CreateOrderFilter<T>(string label, string tag, IEnumerable<T> options)
+    {
+        <label for="@tag">@label:</label>
+        <select id="@tag" data-placeholder="@label" multiple class="chosen-select" name="@tag">
+            @foreach (var option in options)
+            {
+                <option>@option</option>
+            }
+        </select>
+    }
+}
+
+<label for="order-start-date-filter">Start date:</label>
+<input type="datetime-local" id="order-start-date-filter" name="order-start-date-filter" value="@DateTime.UtcNow.AddMonths(-1).ToString(dateTimeFormat)" />
+
+<label for="order-end-date-filter">End date:</label>
+<input type="datetime-local" id="order-end-date-filter" name="order-end-date-filter" value="@DateTime.UtcNow.ToString(dateTimeFormat)" />
+
+@{
+    await CreateOrderFilter<string>("Order numbers", "order-number-filter", Model.OrderNumbers);
+    await CreateOrderFilter<DateTime>("Order dates", "order-date-filter", Model.OrderDates);
+    await CreateOrderFilter<int>("Order provider ids", "order-provider-id-filter", Model.OrderProviderIds);
+    await CreateOrderFilter<string>("Order item names", "order-item-name-filter", Model.OrderItemNames);
+    await CreateOrderFilter<string>("Order item units", "order-item-unit-filter", Model.OrderItemUnits);
+    await CreateOrderFilter<string>("Provider names", "provider-name-filter", Model.ProviderNames);
+}
+
+<button id="submit-order-filter-button">Submit filter</button>
