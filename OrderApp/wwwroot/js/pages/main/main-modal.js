@@ -15,7 +15,7 @@ function addEmptyRowToOrderItemsTable() {
                 .attr('class', 'column-id d-none')
                 .append($('<input>')
                     .attr('name', `${OrderItemsDefaultName}.Id`)
-                    .text('0')))
+                    .attr('value', '0')))
 
             .append($('<td>')
                 .append($('<input>')
@@ -52,11 +52,14 @@ $('body').on('click', '#save-order-button', function (e) {
         url: requestParams.url,
         data: params,
         success: function (response) {
-            // data: { "orderId": orderId },
-            //$("#order-madal").find(".modal-content").html(response);
-            //$("#order-madal").modal('show');
-            location.reload();  
-
+            if (response.status === "success") {
+                location.reload();
+            }
+            else {
+                let errorMessage = 'Create order error:\n- ';
+                let errorFields = response.formErrors.join('\n- ');
+                alert(`${errorMessage}${errorFields}`);
+            }
         },
         failure: function (response) {
             alert(response.responseText);
@@ -65,8 +68,6 @@ $('body').on('click', '#save-order-button', function (e) {
             alert(response.responseText);
         }
     });
-
-    //return false;
 })
 
 function setOrderItemsArrayIndexes(dataArray) {

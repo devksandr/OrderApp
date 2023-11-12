@@ -1,6 +1,8 @@
 using OrderApp.Database;
 using OrderApp.Services;
 using OrderApp.Services.Interfaces;
+using OrderApp.Validators;
+using OrderApp.Validators.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ builder.Services.AddDbContext<ApplicationContext>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IProviderService, ProviderService>();
 builder.Services.AddScoped<IFormService, FormService>();
+builder.Services.AddScoped<IOrderValidator, OrderValidator>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

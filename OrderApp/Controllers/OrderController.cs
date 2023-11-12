@@ -1,16 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OrderApp.Models.DTO.Order;
 using OrderApp.Services.Interfaces;
+using OrderApp.Validators.Interfaces;
+using System;
 
 namespace OrderApp.Controllers
 {
     public class OrderController : Controller
     {
         IOrderService _orderService;
+        IOrderValidator _orderValidator;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, IOrderValidator orderValidator)
         {
             _orderService = orderService;
+            _orderValidator = orderValidator;
         }
 
         public IActionResult Index()
@@ -19,14 +23,19 @@ namespace OrderApp.Controllers
         }
 
         [HttpPost]
-        public void Create(OrderGetResponseDTO orderData)
+        public IActionResult Create(OrderGetResponseDTO orderData)
         {
-            var result = _orderService.CreateOrder(orderData);
+            Func<bool> action = () => _orderService.CreateOrder(orderData);
+            var result = _orderValidator.Validate(ModelState, action);
+            return Json(result);
         }
+
         [HttpPut]
-        public void Update(OrderGetResponseDTO orderData)
+        public IActionResult Update(OrderGetResponseDTO orderData)
         {
-            var result = _orderService.UpdateOrder(orderData);
+            Func<bool> action = () => _orderService.UpdateOrder(orderData);
+            var result = _orderValidator.Validate(ModelState, action);
+            return Json(result);
         }
 
         [HttpDelete("/Order/Delete/{orderId}")]
