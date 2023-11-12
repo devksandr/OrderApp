@@ -25,16 +25,16 @@ namespace OrderApp.Controllers
         [HttpPost]
         public IActionResult Create(OrderGetResponseDTO orderData)
         {
-            Func<bool> action = () => _orderService.CreateOrder(orderData);
-            var result = _orderValidator.Validate(ModelState, action);
+            Func<OrderGetResponseDTO, bool> action = _orderService.CreateOrder;
+            var result = _orderValidator.Validate(ModelState, action, orderData);
             return Json(result);
         }
 
         [HttpPut]
         public IActionResult Update(OrderGetResponseDTO orderData)
         {
-            Func<bool> action = () => _orderService.UpdateOrder(orderData);
-            var result = _orderValidator.Validate(ModelState, action);
+            Func<OrderGetResponseDTO, bool> action = _orderService.UpdateOrder;
+            var result = _orderValidator.Validate(ModelState, action, orderData);
             return Json(result);
         }
 

@@ -59,6 +59,9 @@ namespace OrderApp.Services
             return CreateOrdersDTO(filteredOrders, false);
         }
 
+        public IEnumerable<OrderGetResponseDTO> GetOrdersByNumberAndProviderId(string orderNumber, int providerId)
+            => CreateOrdersDTO(_db.Orders.Where(o => o.ProviderId == providerId && o.Number == orderNumber).ToList(), false);
+
         public bool CreateOrder(OrderGetResponseDTO orderData)
         {
             using (var transaction = _db.Database.BeginTransaction())
@@ -170,6 +173,7 @@ namespace OrderApp.Services
 
             return true;
         }
+
 
         private IEnumerable<OrderGetResponseDTO> CreateOrdersDTO(List<Order> orders, bool includeItems)
         {

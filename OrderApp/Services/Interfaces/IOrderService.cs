@@ -9,6 +9,7 @@ namespace OrderApp.Services.Interfaces
         public IEnumerable<OrderGetResponseDTO> GetAllOrders(bool includeItems);
         public IEnumerable<OrderItemGetResponseDTO> GetAllOrderItems();
         public IEnumerable<OrderGetResponseDTO> GetFilteredOrders(FormGetFilteredOrdersRequestDTO filters);
+        public IEnumerable<OrderGetResponseDTO> GetOrdersByNumberAndProviderId(string orderNumber, int providerId);
         public bool CreateOrder(OrderGetResponseDTO orderData);
         public bool DeleteOrder(int orderId);
         public bool UpdateOrder(OrderGetResponseDTO orderData);
