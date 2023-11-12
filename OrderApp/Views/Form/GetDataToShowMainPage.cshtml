@@ -2,6 +2,7 @@
 @model FormGetMainPageDataResponseDTO
 @{
     ViewData["Title"] = "Main page";
+    string dateTimeFormat = "yyyy-MM-dd HH:mm";
 }
 @functions {
     public async Task CreateOrderFilter<T>(string label, string tag, IEnumerable<T> options)
@@ -36,10 +37,10 @@
     <button id="add-order-button">Add order</button>
 
     <label for="order-start-date-filter">Start date:</label>
-    <input type="date" id="order-start-date-filter" name="order-start-date-filter" value="@DateTime.Today.AddMonths(-1).ToString("yyyy-MM-dd")" />
+    <input type="datetime-local" id="order-start-date-filter" name="order-start-date-filter" value="@DateTime.UtcNow.AddMonths(-1).ToString(dateTimeFormat)" />
 
     <label for="order-end-date-filter">End date:</label>
-    <input type="date" id="order-end-date-filter" name="order-end-date-filter" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+    <input type="datetime-local" id="order-end-date-filter" name="order-end-date-filter" value="@DateTime.UtcNow.ToString(dateTimeFormat)" />
 
     @{
         await CreateOrderFilter<string>("Order numbers", "order-number-filter", Model.Filter.OrderNumbers);

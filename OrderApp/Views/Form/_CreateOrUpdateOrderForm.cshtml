@@ -20,7 +20,7 @@
         <input asp-for="OrderData.Number" asp-is-disabled="@isEdit" />
 
         <label asp-for="OrderData.Date">Date</label>
-        <input type="date" asp-for="OrderData.Date" asp-is-disabled="@isEdit" />
+        <input type="datetime-local" asp-for="OrderData.Date" asp-is-disabled="@isEdit" />
 
         @await Html.PartialAsync("_OrderItemsTable", Model.OrderData)
     </form>
