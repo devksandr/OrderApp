@@ -56,7 +56,7 @@ namespace OrderApp.Services
             return mainPageData;
         }
 
-        public IEnumerable<FormGetOrderRowResponseDTO> ConvertOrdersToOrderRows(IEnumerable<OrderGetResponseDTO> orders) 
+        public IEnumerable<FormGetOrderRowResponseDTO> ConvertOrdersToOrderRows(IEnumerable<OrderDTO> orders) 
             => MakeOrderRowsByOrders(orders);
 
         public FormGetDataToCreateOrUpdateOrderResponseDTO GetDataToCreateOrUpdateOrder(string orderId)
@@ -66,13 +66,13 @@ namespace OrderApp.Services
             {
                 FormTitle = createOrder ? "Create order form" : "Update order form",
                 Providers = _providerService.GetAllProviders(),
-                OrderData = createOrder ? new OrderGetResponseDTO() : _orderService.GetOrder(Convert.ToInt32(orderId), true)
+                OrderData = createOrder ? new OrderDTO() : _orderService.GetOrder(Convert.ToInt32(orderId), true)
             };
             return orderForm;
         }
 
 
-        private IEnumerable<FormGetOrderRowResponseDTO> MakeOrderRowsByOrders(IEnumerable<OrderGetResponseDTO> orders)
+        private IEnumerable<FormGetOrderRowResponseDTO> MakeOrderRowsByOrders(IEnumerable<OrderDTO> orders)
         {
             var orderRows = new List<FormGetOrderRowResponseDTO>();
             foreach (var o in orders)
@@ -83,7 +83,7 @@ namespace OrderApp.Services
             return orderRows;
         }
 
-        private FormGetOrderRowResponseDTO MakeFormOrderRowDTO(OrderGetResponseDTO orderDTO)
+        private FormGetOrderRowResponseDTO MakeFormOrderRowDTO(OrderDTO orderDTO)
         {
             var providerName = _providerService.GetProvider(orderDTO.ProviderId).Name;
             return new FormGetOrderRowResponseDTO

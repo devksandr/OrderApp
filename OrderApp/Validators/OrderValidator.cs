@@ -17,7 +17,7 @@ namespace OrderApp.Validators
             _orderService = orderService;
         }
 
-        public OrderValidateModel Validate(ModelStateDictionary modelState, Func<OrderGetResponseDTO, bool> action, OrderGetResponseDTO orderData)
+        public OrderValidateModel Validate(ModelStateDictionary modelState, Func<OrderDTO, bool> action, OrderDTO orderData)
         {
             var status = "failure";
             var errors = new List<string>();
@@ -41,7 +41,7 @@ namespace OrderApp.Validators
         private List<string> ValidateModel(ModelStateDictionary modelState) 
             => modelState.SelectMany(ms => ms.Value.Errors).Select(error => error.ErrorMessage).Distinct().ToList();
 
-        private List<string> ValidateUniqueNumberForProvider(OrderGetResponseDTO orderData)
+        private List<string> ValidateUniqueNumberForProvider(OrderDTO orderData)
         {
             var errors = new List<string>();
             var conditionalOrders = _orderService.GetOrdersByNumberAndProviderId(orderData.Number, orderData.ProviderId).ToList();
@@ -61,7 +61,7 @@ namespace OrderApp.Validators
             return errors;
         }
 
-        private List<string> ValidateMatchNumberWithItemNames(OrderGetResponseDTO orderData)
+        private List<string> ValidateMatchNumberWithItemNames(OrderDTO orderData)
         {
             var errors = new List<string>();
             var isMatch = orderData.Items.Any(oi => oi.Name == orderData.Number);
@@ -74,7 +74,7 @@ namespace OrderApp.Validators
             return errors;
         }
 
-        private List<string> ValidateAction(Func<OrderGetResponseDTO, bool> action, OrderGetResponseDTO orderData)
+        private List<string> ValidateAction(Func<OrderDTO, bool> action, OrderDTO orderData)
         {
             var errors = new List<string>();
             var actionResult = action(orderData);

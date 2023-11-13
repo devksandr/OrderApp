@@ -18,19 +18,19 @@ namespace OrderApp.Services
             _db = db;
         }
 
-        public OrderGetResponseDTO GetOrder(int orderId, bool includeItems)
+        public OrderDTO GetOrder(int orderId, bool includeItems)
             => CreateOrdersDTO(new List<Order> { _db.Orders.Find(orderId) }, includeItems).First();
 
-        public IEnumerable<OrderGetResponseDTO> GetAllOrders(bool includeItems) 
+        public IEnumerable<OrderDTO> GetAllOrders(bool includeItems) 
             => CreateOrdersDTO(_db.Orders.ToList(), includeItems);
 
-        public IEnumerable<OrderItemGetResponseDTO> GetAllOrderItems()
+        public IEnumerable<OrderItemDTO> GetAllOrderItems()
         {
-            var orderItemsDTO = new List<OrderItemGetResponseDTO>();
+            var orderItemsDTO = new List<OrderItemDTO>();
 
             foreach (var oi in _db.OrderItems)
             {
-                var orderItemDTO = new OrderItemGetResponseDTO
+                var orderItemDTO = new OrderItemDTO
                 {
                     Id = oi.Id,
                     Name = oi.Name,
@@ -43,9 +43,9 @@ namespace OrderApp.Services
             return orderItemsDTO;
         }
 
-        public IEnumerable<OrderGetResponseDTO> GetFilteredOrders(FormGetFilteredOrdersRequestDTO filters)
+        public IEnumerable<OrderDTO> GetFilteredOrders(FormGetFilteredOrdersRequestDTO filters)
         {
-            var ordersDTO = new List<OrderGetResponseDTO>();
+            var ordersDTO = new List<OrderDTO>();
             var filteredOrders = _db.Orders.ToList().Where(o => 
                     o.Date >= filters.OrderDateStart && 
                     o.Date <= filters.OrderDateEnd &&
@@ -59,10 +59,10 @@ namespace OrderApp.Services
             return CreateOrdersDTO(filteredOrders, false);
         }
 
-        public IEnumerable<OrderGetResponseDTO> GetOrdersByNumberAndProviderId(string orderNumber, int providerId)
+        public IEnumerable<OrderDTO> GetOrdersByNumberAndProviderId(string orderNumber, int providerId)
             => CreateOrdersDTO(_db.Orders.Where(o => o.ProviderId == providerId && o.Number == orderNumber).ToList(), false);
 
-        public bool CreateOrder(OrderGetResponseDTO orderData)
+        public bool CreateOrder(OrderDTO orderData)
         {
             using (var transaction = _db.Database.BeginTransaction())
             {
@@ -127,7 +127,7 @@ namespace OrderApp.Services
             return true;
         }
 
-        public bool UpdateOrder(OrderGetResponseDTO orderData)
+        public bool UpdateOrder(OrderDTO orderData)
         {
             using (var transaction = _db.Database.BeginTransaction())
             {
@@ -175,17 +175,17 @@ namespace OrderApp.Services
         }
 
 
-        private IEnumerable<OrderGetResponseDTO> CreateOrdersDTO(List<Order> orders, bool includeItems)
+        private IEnumerable<OrderDTO> CreateOrdersDTO(List<Order> orders, bool includeItems)
         {
-            var ordersDTO = new List<OrderGetResponseDTO>();
+            var ordersDTO = new List<OrderDTO>();
             foreach (var o in orders)
             {
-                var orderItemsDTO = new List<OrderItemGetResponseDTO>();
+                var orderItemsDTO = new List<OrderItemDTO>();
                 if (includeItems)
                 {
                     foreach (var oi in _db.OrderItems.Where(oi => oi.OrderId == o.Id))
                     {
-                        var orderItemDTO = new OrderItemGetResponseDTO
+                        var orderItemDTO = new OrderItemDTO
                         {
                             Id = oi.Id,
                             Name = oi.Name,
@@ -196,7 +196,7 @@ namespace OrderApp.Services
                     }
                 }
 
-                var orderDTO = new OrderGetResponseDTO
+                var orderDTO = new OrderDTO
                 {
                     Id = o.Id,
                     Number = o.Number,
@@ -209,7 +209,7 @@ namespace OrderApp.Services
             return ordersDTO;
         }
 
-        private OrderItem MakeOrderItemByDTO(OrderItemGetResponseDTO orderItemDTO, int orderId)
+        private OrderItem MakeOrderItemByDTO(OrderItemDTO orderItemDTO, int orderId)
         {
             return new OrderItem
             {

@@ -6,7 +6,7 @@ namespace OrderApp.Services.Interfaces
     public interface IFormService
     {
         FormGetMainPageDataResponseDTO GetDataToShowMainPage();
-        IEnumerable<FormGetOrderRowResponseDTO> ConvertOrdersToOrderRows(IEnumerable<OrderGetResponseDTO> orders);
+        IEnumerable<FormGetOrderRowResponseDTO> ConvertOrdersToOrderRows(IEnumerable<OrderDTO> orders);
         FormGetDataToCreateOrUpdateOrderResponseDTO GetDataToCreateOrUpdateOrder(string orderId);
     }
 }

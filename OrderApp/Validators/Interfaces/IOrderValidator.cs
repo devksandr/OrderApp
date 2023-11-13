@@ -7,6 +7,6 @@ namespace OrderApp.Validators.Interfaces
 {
     public interface IOrderValidator
     {
-        public OrderValidateModel Validate(ModelStateDictionary ModelState, Func<OrderGetResponseDTO, bool> action, OrderGetResponseDTO orderData);
+        public OrderValidateModel Validate(ModelStateDictionary ModelState, Func<OrderDTO, bool> action, OrderDTO orderData);
     }
 }

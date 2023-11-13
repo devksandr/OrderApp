@@ -15,13 +15,13 @@ namespace OrderApp.Services
             _db = db;
         }
 
-        public IEnumerable<ProviderGetResponseDTO> GetAllProviders()
+        public IEnumerable<ProviderDTO> GetAllProviders()
         {
-            var providersDTO = new List<ProviderGetResponseDTO>();
+            var providersDTO = new List<ProviderDTO>();
 
             foreach (var p in _db.Providers)
             {
-                var providerDTO = new ProviderGetResponseDTO
+                var providerDTO = new ProviderDTO
                 {
                     Id = p.Id,
                     Name = p.Name
@@ -32,11 +32,11 @@ namespace OrderApp.Services
             return providersDTO;
         }
 
-        public ProviderGetResponseDTO GetProvider(int providerId)
+        public ProviderDTO GetProvider(int providerId)
         {
             var provider = _db.Providers.Find(providerId);
 
-            var providerDTO = new ProviderGetResponseDTO
+            var providerDTO = new ProviderDTO
             {
                 Id = provider.Id,
                 Name = provider.Name

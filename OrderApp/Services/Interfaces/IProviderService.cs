@@ -5,7 +5,7 @@ namespace OrderApp.Services.Interfaces
 {
     public interface IProviderService
     {
-        public IEnumerable<ProviderGetResponseDTO> GetAllProviders();
-        public ProviderGetResponseDTO GetProvider(int providerId);
+        public IEnumerable<ProviderDTO> GetAllProviders();
+        public ProviderDTO GetProvider(int providerId);
     }
 }
