@@ -7,28 +7,50 @@
 @functions {
     public async Task CreateOrderFilter<T>(string label, string tag, IEnumerable<T> options)
     {
-        <label for="@tag">@label:</label>
-        <select id="@tag" data-placeholder="@label" multiple class="chosen-select" name="@tag">
-            @foreach (var option in options)
-            {
-                <option>@option</option>
-            }
-        </select>
+        <div class="row">
+            <div class="col-4">
+                <label for="@tag" >@label:</label>
+            </div>
+            <div class="col-8">
+                <select id="@tag" data-placeholder="@label" multiple class="chosen-select w-100" name="@tag">
+                    @foreach (var option in options)
+                    {
+                        <option>@option</option>
+                    }
+                </select>
+            </div>
+        </div>
     }
 }
 
-<label for="order-start-date-filter">Start date:</label>
-<input type="datetime-local" id="order-start-date-filter" name="order-start-date-filter" value="@DateTime.UtcNow.AddMonths(-1).ToString(dateTimeFormat)" />
+<h4 class="display-6">Filters</h4>
 
-<label for="order-end-date-filter">End date:</label>
-<input type="datetime-local" id="order-end-date-filter" name="order-end-date-filter" value="@DateTime.UtcNow.ToString(dateTimeFormat)" />
+<button id="submit-order-filter-button" class="w-100 mx-auto m-4">Submit filter</button>
 
-@{
-    await CreateOrderFilter<string>("Order numbers", "order-number-filter", Model.OrderNumbers);
-    await CreateOrderFilter<DateTime>("Order dates", "order-date-filter", Model.OrderDates);
-    await CreateOrderFilter<string>("Order item names", "order-item-name-filter", Model.OrderItemNames);
-    await CreateOrderFilter<string>("Order item units", "order-item-unit-filter", Model.OrderItemUnits);
-    await CreateOrderFilter<string>("Provider names", "provider-name-filter", Model.ProviderNames);
-}
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <label for="order-start-date-filter">Start date:</label>
+        </div>
+        <div class="col-8">
+            <input class="w-100" type="datetime-local" id="order-start-date-filter" name="order-start-date-filter" value="@DateTime.UtcNow.AddMonths(-1).ToString(dateTimeFormat)" />
+        </div>
+    </div>
 
-<button id="submit-order-filter-button">Submit filter</button>
+    <div class="row">
+        <div class="col-4">
+            <label for="order-end-date-filter">End date:</label>
+        </div>
+        <div class="col-8">
+            <input class="w-100" type="datetime-local" id="order-end-date-filter" name="order-end-date-filter" value="@DateTime.UtcNow.ToString(dateTimeFormat)" />
+        </div>
+    </div>
+
+    @{
+        await CreateOrderFilter<string>("Order numbers", "order-number-filter", Model.OrderNumbers);
+        await CreateOrderFilter<DateTime>("Order dates", "order-date-filter", Model.OrderDates);
+        await CreateOrderFilter<string>("Order item names", "order-item-name-filter", Model.OrderItemNames);
+        await CreateOrderFilter<string>("Order item units", "order-item-unit-filter", Model.OrderItemUnits);
+        await CreateOrderFilter<string>("Provider names", "provider-name-filter", Model.ProviderNames);
+    }
+</div>

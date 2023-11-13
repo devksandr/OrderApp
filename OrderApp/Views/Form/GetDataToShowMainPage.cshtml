@@ -18,16 +18,17 @@
     @await Html.PartialAsync("_CreateOrUpdateOrderModal")
 }
 
-<div class="text-center">
+<div class="container text-center">
+
     <h1 class="display-4">Main page</h1>
 
-    <button id="add-order-button">Add order</button>
+    <div class="row">
+        <div class="col-5 bg-light" id="orders-filters-container">
+            @await Html.PartialAsync("_OrderFilters", Model.Filter)
+        </div>
 
-    <div id="orders-filters-container">
-        @await Html.PartialAsync("_OrderFilters", Model.Filter)
-    </div>
-
-    <div id="orders-table-container">
-        @await Html.PartialAsync("_OrdersTable", Model.OrderRows)
+        <div class="col-6 bg-light offset-sm-1" id="orders-table-container">
+            @await Html.PartialAsync("_OrdersTable", Model.OrderRows)
+        </div>
     </div>
 </div>

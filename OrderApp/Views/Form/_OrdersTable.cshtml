@@ -1,7 +1,11 @@
 ﻿@using OrderApp.Models.DTO.Form
 @model IEnumerable<FormGetOrderRowResponseDTO>
 
-<table id="orders-table">
+<h4 class="display-6">Table</h4>
+
+<button id="add-order-button" class="w-100 mx-auto m-4">Add order</button>
+
+<table id="orders-table" class="table mx-auto">
     <thead>
         <tr>
             <th>Provider Name</th>
