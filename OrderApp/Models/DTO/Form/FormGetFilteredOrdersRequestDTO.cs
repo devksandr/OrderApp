@@ -5,7 +5,6 @@
         public DateTime OrderDateStart { get; set; }
         public DateTime OrderDateEnd { get; set; }
         public required List<string> OrderNumbers { get; set; }
-        public required List<int> OrderProviderIds { get; set; }
 
         public required List<string> OrderItemNames { get; set; }
         public required List<string> OrderItemUnits { get; set; }

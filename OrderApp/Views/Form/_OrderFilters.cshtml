@@ -45,7 +45,6 @@
         await CreateOrderFilterDateTime("End date", "order-end-date-filter", DateTime.UtcNow.ToString(dateTimeFormat));
 
         await CreateOrderFilterSelect<string>("Order numbers", "order-number-filter", Model.OrderNumbers);
-        await CreateOrderFilterSelect<DateTime>("Order dates", "order-date-filter", Model.OrderDates);
         await CreateOrderFilterSelect<string>("Order item names", "order-item-name-filter", Model.OrderItemNames);
         await CreateOrderFilterSelect<string>("Order item units", "order-item-unit-filter", Model.OrderItemUnits);
         await CreateOrderFilterSelect<string>("Provider names", "provider-name-filter", Model.ProviderNames);

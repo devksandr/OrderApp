@@ -39,7 +39,6 @@ namespace OrderApp.Services
                 var filters = new FormGetFilterResponseDTO
                 {
                     OrderNumbers = ordersDTO.Select(o => o.Number).Distinct(),
-                    OrderDates = ordersDTO.Select(o => o.Date).Distinct(),
                     OrderItemNames = orderItemsDTO.Select(oi  => oi.Name).Distinct(),
                     OrderItemUnits = orderItemsDTO.Select(oi => oi.Unit).Distinct(),
                     ProviderNames = providersDTO.Where(p => currentProvidersDTO.Contains(p.Id)).Select(p => p.Name).Distinct()

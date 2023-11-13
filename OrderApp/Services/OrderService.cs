@@ -50,7 +50,6 @@ namespace OrderApp.Services
                     o.Date >= filters.OrderDateStart && 
                     o.Date <= filters.OrderDateEnd &&
                     (filters.OrderNumbers == null || filters.OrderNumbers.Contains(o.Number)) &&
-                    (filters.OrderProviderIds == null || filters.OrderProviderIds.Contains(o.ProviderId)) &&
                     (filters.OrderItemNames == null || !filters.OrderItemNames.Except(_db.OrderItems.Where(oi => oi.OrderId == o.Id).Select(oi => oi.Name)).Any()) &&
                     (filters.OrderItemUnits == null || !filters.OrderItemUnits.Except(_db.OrderItems.Where(oi => oi.OrderId == o.Id).Select(oi => oi.Unit)).Any()) &&
                     (filters.ProviderNames == null || filters.ProviderNames.Contains(_db.Providers.Find(o.ProviderId).Name)))
