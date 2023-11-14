@@ -39,17 +39,6 @@ namespace OrderApp.Database
                 new Provider { Id = 9, Name = "BenQ" },
                 new Provider { Id = 10, Name = "HP" }
             );
-
-            // test - del
-            modelBuilder.Entity<Order>().HasData(
-                new Order { Id = 1, Number = "ASDJK-ASDAS-ASDAS", Date = DateTime.Now, ProviderId = 1 },
-                new Order { Id = 2, Number = "FDGDF-3FSDS-BXCXV", Date = DateTime.Now, ProviderId = 7 }
-            );
-            modelBuilder.Entity<OrderItem>().HasData(
-                new OrderItem { Id = 1, OrderId = 1, Name = "CPU1", Quantity = 1, Unit = "Unit1.1" },
-                new OrderItem { Id = 2, OrderId = 1, Name = "CPU2", Quantity = 1, Unit = "Unit1.2" },
-                new OrderItem { Id = 3, OrderId = 2, Name = "Phone1", Quantity = 2, Unit = "Unit2" }
-            );
         }
     }
 }
